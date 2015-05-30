@@ -52,7 +52,7 @@ public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         super.init(coder: aDecoder)
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.blackColor()
@@ -62,7 +62,7 @@ public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         self.view.addGestureRecognizer(torchGestureRecognizer)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         if let _ = cancelCallback {
@@ -155,7 +155,7 @@ public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         self.view.layer.addSublayer(self.avVideoPreviewLayer)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         avVideoPreviewLayer?.removeFromSuperlayer();
         avVideoPreviewLayer = nil;
@@ -163,17 +163,17 @@ public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         avDevice = nil;
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    public override func prefersStatusBarHidden() -> Bool {
         return true
     }
     
-    override func viewDidLayoutSubviews() {
+    public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         avVideoPreviewLayer?.bounds = self.view.bounds;
         avVideoPreviewLayer?.position = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
     }
     
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    public override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
         
         // The device has already rotated, that's why this method is being called
@@ -244,7 +244,7 @@ public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
     
     // MARK: AVCaptureMetadataOutputObjectsDelegate
     
-    func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
+    public func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
         var metadataStr: String?
         
         for metadata in metadataObjects {
