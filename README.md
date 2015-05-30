@@ -8,13 +8,16 @@ A simple QRCode reader for Swift (based on [CDZQRScanningViewController](https:/
 
 ```swift
 let reader = QRCodeReaderViewController()
+
 reader.resultCallback = {
     println($0)
     reader.dismissViewControllerAnimated(true, completion: nil)
 }
+
 reader.cancelCallback = {
     reader.dismissViewControllerAnimated(true, completion: nil)
 }
+
 presentViewController(reader, animated: true, completion: nil)
 ```
 
