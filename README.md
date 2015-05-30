@@ -29,10 +29,16 @@ QRCodeReader is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "QRCodeReader"
+pod "QRCodeReader", :git => 'https://github.com/ricardopereira/QRCodeReader.git'
 ```
 
-and run `pod install` or `pod update`.
+You will also need to make sure you're opting into using frameworks:
+
+```ruby
+use_frameworks!
+```
+
+Then run `pod install` with CocoaPods 0.36 or newer.
 
 ## Author
 
