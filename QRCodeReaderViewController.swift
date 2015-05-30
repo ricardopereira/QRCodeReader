@@ -9,21 +9,21 @@
 import UIKit
 import AVFoundation
 
-typealias ResultCallback = (String) -> ()
-typealias ErrorCallback = (NSError) -> ()
-typealias CancelCallback = () -> ()
+public typealias ResultCallback = (String) -> ()
+public typealias ErrorCallback = (NSError) -> ()
+public typealias CancelCallback = () -> ()
 
 enum QRCodeReaderViewControllerErrorCodes: Int {
     case UnavailableMetadataObjectType = 1
 }
 
-class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
     private let metadataObjectTypes: [String]
     
-    var resultCallback: ResultCallback?
-    var errorCallback: ErrorCallback?
-    var cancelCallback: CancelCallback?
+    public var resultCallback: ResultCallback?
+    public var errorCallback: ErrorCallback?
+    public var cancelCallback: CancelCallback?
     
     private var avSession: AVCaptureSession?
     private var avDevice: AVCaptureDevice?
@@ -37,17 +37,17 @@ class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutputObjec
     private let torchActivationDelay = 0.25
     private let errorDomain = "eu.ricardopereira.QRCodeReaderViewController"
     
-    convenience init() {
+    public convenience init() {
         self.init(metadataObjectTypes: [AVMetadataObjectTypeQRCode])
     }
     
-    init(metadataObjectTypes: [String]) {
+    public init(metadataObjectTypes: [String]) {
         self.metadataObjectTypes = metadataObjectTypes
         super.init(nibName: nil, bundle: nil)
         self.title = "QR Code"
     }
 
-    required init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         self.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
         super.init(coder: aDecoder)
     }
