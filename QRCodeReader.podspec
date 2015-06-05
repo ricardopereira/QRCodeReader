@@ -11,6 +11,6 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '8.0'
   s.requires_arc = true
 
-  s.source_files = 'QRCodeReaderViewController.swift'
+  s.source_files = '*.{h,swift}'
   s.frameworks = 'UIKit', 'AVFoundation'
 end
