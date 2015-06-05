@@ -8,13 +8,16 @@ A simple QRCode reader for Swift (based on [CDZQRScanningViewController](https:/
 
 ```swift
 let reader = QRCodeReaderViewController()
+
 reader.resultCallback = {
     println($0)
     reader.dismissViewControllerAnimated(true, completion: nil)
 }
+
 reader.cancelCallback = {
     reader.dismissViewControllerAnimated(true, completion: nil)
 }
+
 presentViewController(reader, animated: true, completion: nil)
 ```
 
@@ -46,4 +49,7 @@ Ricardo Pereira, [@ricardopereiraw](https://twitter.com/ricardopereiraw)
 
 ## License
 
-QRCodeReader is available under the MIT license. See the LICENSE file for more info.
+QRCodeReader is available under the MIT license. See the [LICENSE] file for more info.
+
+[LICENSE]: /LICENSE
+
