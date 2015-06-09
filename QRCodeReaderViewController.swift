@@ -46,7 +46,7 @@ public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         super.init(nibName: nil, bundle: nil)
         self.title = "QR Code"
     }
-
+    
     public required init(coder aDecoder: NSCoder) {
         self.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
         super.init(coder: aDecoder)
@@ -54,12 +54,17 @@ public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // Config
         self.view.backgroundColor = UIColor.blackColor()
         
-        let torchGestureRecognizer = UILongPressGestureRecognizer(target: self, action: Selector("handleTorchRecognizerTap:"))
-        torchGestureRecognizer.minimumPressDuration = torchLevel
-        self.view.addGestureRecognizer(torchGestureRecognizer)
+        // Gestures
+        let torchGesture = UILongPressGestureRecognizer(target: self, action: Selector("handleTorchRecognizerTap:"))
+        torchGesture.minimumPressDuration = torchLevel
+        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: "handleSwipeDown:")
+        swipeDownGesture.direction = .Down
+        
+        self.view.addGestureRecognizer(torchGesture)
+        self.view.addGestureRecognizer(swipeDownGesture)
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -69,6 +74,7 @@ public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: self, action: Selector("cancelItemSelected:"))
         } else {
             self.navigationItem.leftBarButtonItem = nil
+            
         }
         
         lastCapturedString = nil
@@ -207,6 +213,11 @@ public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         cancelCallback?();
     }
     
+    func handleSwipeDown(sender: UIGestureRecognizer) {
+        avSession?.stopRunning;
+        cancelCallback?();
+    }
+    
     func handleTorchRecognizerTap(sender: UIGestureRecognizer) {
         switch(sender.state) {
         case UIGestureRecognizerState.Began:
@@ -256,7 +267,7 @@ public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
         
         if let result = metadataStr {
             if lastCapturedString != result {
-               lastCapturedString = result
+                lastCapturedString = result
                 avSession?.stopRunning()
                 resultCallback?(result)
             }
