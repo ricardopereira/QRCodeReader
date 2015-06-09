@@ -21,6 +21,11 @@ reader.cancelCallback = {
 presentViewController(reader, animated: true, completion: nil)
 ```
 
+##### More
+ * Autofocus
+ * Cancel the operation by swiping the view down
+ * Turn on the flashlight 🔆 with force touch on the view
+
 ## Requirements
 
 * iOS 8.0+
