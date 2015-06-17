@@ -9,9 +9,9 @@
 import UIKit
 import AVFoundation
 
-public typealias ResultCallback = (String) -> ()
-public typealias ErrorCallback = (NSError) -> ()
-public typealias CancelCallback = () -> ()
+public typealias ResultCallback = (QRCodeReaderViewController, String) -> ()
+public typealias ErrorCallback = (QRCodeReaderViewController, NSError) -> ()
+public typealias CancelCallback = (QRCodeReaderViewController) -> ()
 
 enum QRCodeReaderViewControllerErrorCodes: Int {
     case UnavailableMetadataObjectType = 1
@@ -83,7 +83,7 @@ public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
             errorCallback = { error in
                 if let performCancel = self.cancelCallback {
                     self.avSession?.stopRunning()
-                    performCancel()
+                    performCancel(self)
                 }
             }
         }
@@ -116,7 +116,7 @@ public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
                     if let performError = self.errorCallback {
                         dispatch_async(dispatch_get_main_queue()) {
                             session.stopRunning()
-                            performError(e)
+                            performError(self, e)
                         }
                     }
                     return
@@ -134,7 +134,7 @@ public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
                         if let performError = self.errorCallback {
                             dispatch_async(dispatch_get_main_queue()) {
                                 session.stopRunning()
-                                performError(NSError(domain: self.errorDomain, code: QRCodeReaderViewControllerErrorCodes.UnavailableMetadataObjectType.rawValue, userInfo: [NSLocalizedDescriptionKey : "Unable to scan object of type \(type)"]))
+                                performError(self, NSError(domain: self.errorDomain, code: QRCodeReaderViewControllerErrorCodes.UnavailableMetadataObjectType.rawValue, userInfo: [NSLocalizedDescriptionKey : "Unable to scan object of type \(type)"]))
                             }
                         }
                         return
@@ -210,12 +210,12 @@ public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
     
     func cancelItemSelected(sender: AnyObject) {
         avSession?.stopRunning;
-        cancelCallback?();
+        cancelCallback?(self);
     }
     
     func handleSwipeDown(sender: UIGestureRecognizer) {
         avSession?.stopRunning;
-        cancelCallback?();
+        cancelCallback?(self);
     }
     
     func handleTorchRecognizerTap(sender: UIGestureRecognizer) {
@@ -269,7 +269,7 @@ public class QRCodeReaderViewController: UIViewController, AVCaptureMetadataOutp
             if lastCapturedString != result {
                 lastCapturedString = result
                 avSession?.stopRunning()
-                resultCallback?(result)
+                resultCallback?(self, result)
             }
         }
     }
